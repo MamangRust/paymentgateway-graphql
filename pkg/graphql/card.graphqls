@@ -1,0 +1,286 @@
+input FindAllCardInput {
+  page: Int
+  page_size: Int
+  search: String
+}
+
+input FindByIdCardInput {
+  card_id: Int!
+}
+
+input FindByUserIdCardInput {
+  user_id: Int!
+}
+
+input FindByCardNumberInput {
+  card_number: String!
+}
+
+input FindYearBalanceInput {
+  year: Int!
+}
+
+input FindYearBalanceCardNumberInput {
+  year: Int!
+  card_number: String!
+}
+
+input FindYearAmountInput {
+  year: Int!
+}
+
+input FindYearAmountCardNumberInput {
+  year: Int!
+  card_number: String!
+}
+
+input CreateCardInput {
+  user_id: Int!
+  card_type: String!
+  expire_date: String!
+  cvv: String!
+  card_provider: String!
+}
+
+input UpdateCardInput {
+  id: Int!
+  user_id: Int!
+  card_type: String!
+  expire_date: String!
+  cvv: String!
+  card_provider: String!
+}
+
+type CardResponse {
+  id: Int!
+  user_id: Int!
+  card_number: String!
+  card_type: String!
+  expire_date: String!
+  cvv: String!
+  card_provider: String!
+  created_at: String!
+  updated_at: String!
+}
+
+type CardResponseDeleteAt {
+  id: Int!
+  user_id: Int!
+  card_number: String!
+  card_type: String!
+  expire_date: String!
+  cvv: String!
+  card_provider: String!
+  created_at: String!
+  updated_at: String!
+  deleted_at: String
+}
+
+type CardDashboardResponse {
+  total_balance: Int!
+  total_topup: Int!
+  total_withdraw: Int!
+  total_transaction: Int!
+  total_transfer: Int!
+}
+
+type CardDashboardByNumberResponse {
+  total_balance: Int!
+  total_topup: Int!
+  total_withdraw: Int!
+  total_transaction: Int!
+  total_transfer_send: Int!
+  total_transfer_receiver: Int!
+}
+
+type CardMonthlyBalanceResponse {
+  month: String!
+  total_balance: Int!
+}
+
+type CardYearlyBalanceResponse {
+  year: String!
+  total_balance: Int!
+}
+
+type CardMonthlyAmountResponse {
+  month: String!
+  total_amount: Int!
+}
+
+type CardYearlyAmountResponse {
+  year: String!
+  total_amount: Int!
+}
+
+type ApiResponseCard {
+  status: String!
+  message: String!
+  data: CardResponse
+}
+
+type ApiResponseCardDeleteAt {
+  status: String!
+  message: String!
+  data: CardResponseDeleteAt
+}
+
+type ApiResponsePaginationCard {
+  status: String!
+  message: String!
+  data: [CardResponse!]!
+  pagination: PaginationMeta!
+}
+
+type ApiResponsePaginationCardDeleteAt {
+  status: String!
+  message: String!
+  data: [CardResponseDeleteAt!]!
+  pagination: PaginationMeta!
+}
+
+type ApiResponseDashboardCard {
+  status: String!
+  message: String!
+  data: CardDashboardResponse
+}
+
+type ApiResponseDashboardCardNumber {
+  status: String!
+  message: String!
+  data: CardDashboardByNumberResponse
+}
+
+type ApiResponseMonthlyBalance {
+  status: String!
+  message: String!
+  data: [CardMonthlyBalanceResponse!]!
+}
+
+type ApiResponseYearlyBalance {
+  status: String!
+  message: String!
+  data: [CardYearlyBalanceResponse!]!
+}
+
+type ApiResponseMonthlyAmount {
+  status: String!
+  message: String!
+  data: [CardMonthlyAmountResponse!]!
+}
+
+type ApiResponseYearlyAmount {
+  status: String!
+  message: String!
+  data: [CardYearlyAmountResponse!]!
+}
+
+type ApiResponseCardAll {
+  status: String!
+  message: String!
+}
+
+type ApiResponseCardDelete {
+  status: String!
+  message: String!
+}
+
+extend type Query {
+  findAllCard(input: FindAllCardInput): ApiResponsePaginationCard!
+  findByIdCard(input: FindByIdCardInput!): ApiResponseCard!
+  findByUserIdCard(input: FindByUserIdCardInput!): ApiResponseCard!
+  findByActiveCard(input: FindAllCardInput): ApiResponsePaginationCardDeleteAt!
+  findByTrashedCard(input: FindAllCardInput): ApiResponsePaginationCardDeleteAt!
+  findByCardNumberCard(input: FindByCardNumberInput!): ApiResponseCard!
+
+  dashboardCard: ApiResponseDashboardCard!
+  dashboardCardNumber(
+    input: FindByCardNumberInput!
+  ): ApiResponseDashboardCardNumber!
+
+  findMonthlyBalance(input: FindYearBalanceInput!): ApiResponseMonthlyBalance!
+  findYearlyBalance(input: FindYearBalanceInput!): ApiResponseYearlyBalance!
+
+  findMonthlyTopupAmount(input: FindYearAmountInput!): ApiResponseMonthlyAmount!
+  findYearlyTopupAmount(input: FindYearAmountInput!): ApiResponseYearlyAmount!
+
+  findMonthlyWithdrawAmount(
+    input: FindYearAmountInput!
+  ): ApiResponseMonthlyAmount!
+  findYearlyWithdrawAmount(
+    input: FindYearAmountInput!
+  ): ApiResponseYearlyAmount!
+
+  findMonthlyTransactionAmount(
+    input: FindYearAmountInput!
+  ): ApiResponseMonthlyAmount!
+  findYearlyTransactionAmount(
+    input: FindYearAmountInput!
+  ): ApiResponseYearlyAmount!
+
+  findMonthlyTransferSenderAmount(
+    input: FindYearAmountInput!
+  ): ApiResponseMonthlyAmount!
+  findYearlyTransferSenderAmount(
+    input: FindYearAmountInput!
+  ): ApiResponseYearlyAmount!
+
+  findMonthlyTransferReceiverAmount(
+    input: FindYearAmountInput!
+  ): ApiResponseMonthlyAmount!
+  findYearlyTransferReceiverAmount(
+    input: FindYearAmountInput!
+  ): ApiResponseYearlyAmount!
+
+  findMonthlyBalanceByCardNumber(
+    input: FindYearBalanceCardNumberInput!
+  ): ApiResponseMonthlyBalance!
+  findYearlyBalanceByCardNumber(
+    input: FindYearBalanceCardNumberInput!
+  ): ApiResponseYearlyBalance!
+
+  findMonthlyTopupAmountByCardNumber(
+    input: FindYearAmountCardNumberInput!
+  ): ApiResponseMonthlyAmount!
+  findYearlyTopupAmountByCardNumber(
+    input: FindYearAmountCardNumberInput!
+  ): ApiResponseYearlyAmount!
+
+  findMonthlyWithdrawAmountByCardNumber(
+    input: FindYearAmountCardNumberInput!
+  ): ApiResponseMonthlyAmount!
+  findYearlyWithdrawAmountByCardNumber(
+    input: FindYearAmountCardNumberInput!
+  ): ApiResponseYearlyAmount!
+
+  findMonthlyTransactionAmountByCardNumber(
+    input: FindYearAmountCardNumberInput!
+  ): ApiResponseMonthlyAmount!
+  findYearlyTransactionAmountByCardNumber(
+    input: FindYearAmountCardNumberInput!
+  ): ApiResponseYearlyAmount!
+
+  findMonthlyTransferSenderAmountByCardNumber(
+    input: FindYearAmountCardNumberInput!
+  ): ApiResponseMonthlyAmount!
+  findYearlyTransferSenderAmountByCardNumber(
+    input: FindYearAmountCardNumberInput!
+  ): ApiResponseYearlyAmount!
+
+  findMonthlyTransferReceiverAmountByCardNumber(
+    input: FindYearAmountCardNumberInput!
+  ): ApiResponseMonthlyAmount!
+  findYearlyTransferReceiverAmountByCardNumber(
+    input: FindYearAmountCardNumberInput!
+  ): ApiResponseYearlyAmount!
+}
+
+extend type Mutation {
+  createCard(input: CreateCardInput!): ApiResponseCard!
+  updateCard(input: UpdateCardInput!): ApiResponseCard!
+  trashedCard(input: FindByIdCardInput!): ApiResponseCardDeleteAt!
+  restoreCard(input: FindByIdCardInput!): ApiResponseCardDeleteAt!
+  deleteCardPermanent(input: FindByIdCardInput!): ApiResponseCardDelete!
+  restoreAllCard: ApiResponseCardAll!
+  deleteAllCardPermanent: ApiResponseCardAll!
+}
