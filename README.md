@@ -209,4 +209,4 @@ Buka browser dan navigasi ke `http://localhost:8080`. Anda akan disambut oleh Gr
 - `make migrate-up`: Menjalankan semua migrasi database yang tertunda.
 - `make migrate-down`: Membatalkan migrasi database terakhir.
 - `make sqlc`: Hanya menjalankan `sqlc generate`.
-- `make gqlgen`: Hanya menjalankan `gqlgen generate`.
+- `make graphql-generate`: Hanya menjalankan `gqlgen generate`.
